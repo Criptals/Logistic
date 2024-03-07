@@ -5,6 +5,8 @@ from kivy.uix.button import Button
 from kivy.uix.textinput import TextInput
 from kivy.core.window import Window
 from kivy.uix.boxlayout import BoxLayout
+from general_file import check_files
+from kivy.core.text import Label
 
 class MainApp(App):
     path_list = []
@@ -14,7 +16,6 @@ class MainApp(App):
     def build(self):
         return self.layout1()
 
-
     def on_press_button1(self, instance):
         text_input = TextInput(
             multiline=False, readonly=False, halign="center", font_size=15, size_hint=(1, .03),
@@ -22,17 +23,16 @@ class MainApp(App):
         self.path_list.append(text_input)
         self.main_layout.add_widget(text_input)
 
-
     def on_press_button2(self, instance):
-
+        lst = []
         for i in range(len(self.path_list)):
-            print(self.path_list[i].text)
-
+            lst.append(self.path_list[i].text[1:-1:1])
+            self.path_list[i].background_color = (10, 0, 0, 0)
+        print(check_files(lst))
 
     def on_press_button3(self, instance):
         self.main_layout.clear_widgets()
         self.layout1()
-
 
     def layout1(self):
         h_layout = BoxLayout(padding=0, orientation='horizontal', size_hint=(1, .2), )
