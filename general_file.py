@@ -1,24 +1,5 @@
 from openpyxl import Workbook
 from openpyxl.styles import Alignment
-import os
-from average_file import create_average_file
-
-
-def check_files(a):
-    check = False
-    errs = []
-    for i in range(len(a)):
-        if os.path.exists(a[i]) == False:
-            check = True
-            errs.append(str(i+1))
-
-    if check == True:
-        b = ", ".join(errs)
-        return f'Ошибки в путях к файлам: {b}'
-    else:
-        create_general_file(a)
-        #create_average_file()
-        return "Файлы созданы."
 
 
 def create_general_file(a):
