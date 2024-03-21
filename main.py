@@ -34,7 +34,8 @@ class MyWidget(MDScreen):
         pass
 
     def generate_files(self):
-        create_general_file(self.path_list)
+
+        create_general_file(self.path_list, gen_name=self.ids.t1.text, avg_name=self.ids.t2.text)
 
     def delete_selected_files(self):
         while len(self.path_list) != 0:

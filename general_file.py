@@ -1,9 +1,9 @@
 import openpyxl
 from openpyxl import Workbook
 from openpyxl.styles import Alignment
+from average_file import create_average_file
 
-
-def create_general_file(a):
+def create_general_file(a, gen_name, avg_name):
     wb = Workbook()
     book = openpyxl.load_workbook((a[0]))
     sheets_num = len(book.sheetnames)
@@ -17,15 +17,30 @@ def create_general_file(a):
                 if (int(cell.coordinate[1::]) == 1 or int(cell.coordinate[1::]) > 7) and r == 0:
                     row_num[i] += 1
                     r = 1
-                    ws[cell.coordinate[0]+str(row_num[i])].value = cell.value
+                    if cell.value is None:
+                        ws[cell.coordinate[0] + str(row_num[i])].value = cell.value
+                    else:
+                        if str(cell.value).isdigit():
+                            ws[cell.coordinate[0] + str(row_num[i])].number_format = cell.number_format[:23]
+                            ws[cell.coordinate[0] + str(row_num[i])].value = cell.value
+                        else:
+                            ws[cell.coordinate[0] + str(row_num[i])].value = cell.value
                 elif int(cell.coordinate[1::]) == 1 or int(cell.coordinate[1::]) > 7 and r == 1:
-                    ws[cell.coordinate[0] + str(row_num[i])].value = cell.value
+                    if cell.value is None:
+                        ws[cell.coordinate[0] + str(row_num[i])].value = cell.value
+                    else:
+                        if str(cell.value).isdigit():
+                            ws[cell.coordinate[0] + str(row_num[i])].number_format = cell.number_format[:23]
+                            ws[cell.coordinate[0] + str(row_num[i])].value = cell.value
+
+                        else:
+                            ws[cell.coordinate[0] + str(row_num[i])].value = cell.value
     del wb['Sheet']
-    wb.save("ПримерОбъединения.xlsx")
+    wb.save(f"{gen_name}.xlsx")
     files_num = len(a)
     for i in range(1, files_num):
         book = openpyxl.load_workbook((a[i]))
-        wb = openpyxl.load_workbook("ПримерОбъединения.xlsx")
+        wb = openpyxl.load_workbook(f"{gen_name}.xlsx")
         a = book.sheetnames.index('авто')
         row_num[a] -= 9
         for j in range(sheets_num):
@@ -37,15 +52,29 @@ def create_general_file(a):
                     if int(cell.coordinate[1::]) > 9 and r == 0:
                         row_num[j] += 1
                         r = 1
-                        ws[cell.coordinate[0] + str(row_num[j])].value = cell.value
+                        if cell.value is None:
+                            ws[cell.coordinate[0] + str(row_num[j])].value = cell.value
+                        else:
+                            if str(cell.value).isdigit():
+                                ws[cell.coordinate[0] + str(row_num[j])].number_format = cell.number_format[:23]
+                                ws[cell.coordinate[0] + str(row_num[j])].value = cell.value
+                            else:
+                                ws[cell.coordinate[0] + str(row_num[j])].value = cell.value
                     elif int(cell.coordinate[1::]) > 9 and r == 1:
-                        ws[cell.coordinate[0] + str(row_num[j])].value = cell.value
-            wb.save("ПримерОбъединения.xlsx")
-    wb = openpyxl.load_workbook("ПримерОбъединения.xlsx")
+                        if cell.value is None:
+                            ws[cell.coordinate[0] + str(row_num[j])].value = cell.value
+                        else:
+                            if str(cell.value).isdigit():
+                                ws[cell.coordinate[0] + str(row_num[j])].number_format = cell.number_format[:23]
+                                ws[cell.coordinate[0] + str(row_num[j])].value = cell.value
+                            else:
+                                ws[cell.coordinate[0] + str(row_num[j])].value = cell.value
+            wb.save(f"{gen_name}.xlsx")
+    wb = openpyxl.load_workbook(f"{gen_name}.xlsx")
     del wb["Лист1"]
-    wb.save("ПримерОбъединения.xlsx")
+    wb.save(f"{gen_name}.xlsx")
 
-    wb = openpyxl.load_workbook("ПримерОбъединения.xlsx")
+    wb = openpyxl.load_workbook(f"{gen_name}.xlsx")
     for i in range(sheets_num-1):
         ws = wb.worksheets[i]
         columns = ws.max_row
@@ -69,7 +98,7 @@ def create_general_file(a):
         ws.column_dimensions['J'].width = 10
         ws.column_dimensions['K'].width = 100
         ws.column_dimensions['L'].width = 20
-    wb.save("ПримерОбъединения.xlsx")
-
+    wb.save(f"{gen_name}.xlsx")
+    #create_average_file(gen_name=gen_name, avg_name=avg_name)
 
      # сохранение таблицы

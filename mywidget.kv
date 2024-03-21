@@ -3,41 +3,60 @@
     orientation: "vertical"
 
     md_bg_color: 0.95, 0.47, 0.2, 0.7
-
     BoxLayout:
-        orientation: "horizontal"
-        Button
-            id: b1
-            text: "Добавить файл"
-            on_release: my_widget.open(filechooser.path, filechooser.selection)
-            size_hint: (0.35, 0.05)
-            pos_hint: {'center_x': 0.15, 'center_y': 0.95}
-        Button
-            id: b2
-            text: "Сгенерировать таблицы"
-            on_release: my_widget.generate_files()
-            size_hint: (0.35, 0.05)
-            pos_hint: {'center_x': 0.5, 'center_y': 0.95}
-        Button
-            id: b3
-            text: "Очистить список выбранных файлов"
-            on_release: my_widget.delete_selected_files()
-            size_hint: (0.35, 0.05)
-            pos_hint: {'center_x': 0.85, 'center_y': 0.95}
-    BoxLayout:
+        orientation: "vertical"
+        BoxLayout:
+            orientation: "horizontal"
+            size_hint: (1, 0.2)
+            Button
+                id: b1
+                text: "Добавить файл"
+                on_release: my_widget.open(filechooser.path, filechooser.selection)
+                size_hint: (0.35, 0.1)
+                pos_hint: {'center_x': 0.15, 'center_y': 0.9}
+            Button
+                id: b2
+                text: "Сгенерировать таблицы"
+                on_release: my_widget.generate_files()
+                size_hint: (0.35, 0.1)
+                pos_hint: {'center_x': 0.5, 'center_y': 0.9}
+            Button
+                id: b3
+                text: "Очистить список выбранных файлов"
+                on_release: my_widget.delete_selected_files()
+                size_hint: (0.35, 0.1)
+                pos_hint: {'center_x': 0.85, 'center_y': 0.9}
+        BoxLayout:
+            orientation: "vertical"
+            size_hint: (1, 0.15)
+            TextInput
+                id: t1
+                multiline: False
+                hint_text: "Название главного файла"
+                size_hint: (1, 0.001)
+                pos_hint: {'center_x': 0.5, 'center_y': 0.95}
+            TextInput
+                id: t2
+                multiline: False
+                hint_text: "Название файла со средними значениями"
+                size_hint: (1, 0.001)
+                pos_hint: {'center_x': 0.5, 'center_y': 0.9}
+        BoxLayout:
 
-        text_color: 0, 0.1, 0.2, 1
-        orientation: "horizontal"
-        text_color: (1, 0, 0, 1)
-        FileChooserListView:
-            id: filechooser
-            path: '.'
-            on_selection:
-            pos_hint: {'center_x': 0.5, 'center_y': 0.4}
-        ScrollView:
-            do_scroll: True
-            pos_hint: {'center_x': 0.5, 'center_y': 0.44}
-            MDList:
-                id: list
-                size_hint: (1, 0.005)
-                pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+            text_color: 0, 0.1, 0.2, 1
+            orientation: "horizontal"
+            text_color: (1, 0, 0, 1)
+            FileChooserListView:
+                id: filechooser
+
+                path: '.'
+                on_selection:
+                pos_hint: {'center_x': 0.5, 'center_y': 0.4}
+            ScrollView:
+                do_scroll: True
+                pos_hint: {'center_x': 0.5, 'center_y': 0.44}
+                MDList:
+                    id: list
+                    size_hint: (1, 0.005)
+                    font_text_color: 0.0, 0.0, 0.0, 0.1
+                    pos_hint: {'center_x': 0.5, 'center_y': 0.3}
