@@ -8,7 +8,8 @@ def create_average_file(gen_name, avg_name):
     book = openpyxl.load_workbook(f"{gen_name}.xlsx")
     sheets_num = len(book.sheetnames)
     all_data = []
-    #row_num = [0 for i in range(sheets_num)]
+
+    # блок для генерации шапки таблицы средних значений и получения всех необходимых данных из сводной таблицы
     for i in range(sheets_num):
         sheet_data = []
         wa = book.worksheets[i]
@@ -19,8 +20,14 @@ def create_average_file(gen_name, avg_name):
                 if int(cell.coordinate[1::]) < 4:
                     ws[cell.coordinate].value = cell.value
                 else:
-                    row_data.append(cell.value)
-            sheet_data.append(row_data)
+                    if cell.value is None:
+                        row_data.append(0)
+                    elif len(str(cell.value)) == str(cell.value).count(" "):
+                        row_data.append(0)
+                    else:
+                        row_data.append(cell.value)
+            if len(row_data) > 0:
+                sheet_data.append(row_data)
         if i < 3:
             ws.delete_cols(4, 1)
             ws.delete_cols(5, 1)
@@ -51,8 +58,114 @@ def create_average_file(gen_name, avg_name):
             for k in sheet_data:
                 k.pop(9)
                 k.pop(9)
+        all_data.append(sheet_data)
     del wb['Sheet']
     wb.save(f"{avg_name}.xlsx")
+
+    # блок вычисления всех средних значений
+    avg_data = []
+    for k in range(len(all_data)):
+        sheet_data = all_data[k]
+        avg_sheet_data = []
+        cities = []
+        values = []
+        r = len(sheet_data)
+        if k < 3:
+            for i in range(r):
+                nums = 1
+                if not cities:
+                    cities.append(sheet_data[i][:3])
+                    values.append(sheet_data[i][3::])
+                elif sheet_data[i][:3] not in cities:
+                    cities.append(sheet_data[i][:3])
+                    values.append(sheet_data[i][3::])
+                if i != r-1:
+                    for j in range(i + 1, r):
+                        c = sheet_data[j][:3]
+                        v = sheet_data[j][3::]
+                        if c == cities[-1]:
+                            values[-1][0] += v[0]
+                            values[-1][1] += v[1]
+                            nums += 1
+                    values[-1][0] /= nums
+                    values[-1][1] /= nums
+
+            for i in range(len(cities)):
+                for f in range(len(cities[i])):
+                    if cities[i][f] == 0:
+                        cities[i][f] = ""
+                avg_sheet_data.append((cities[i] + values[i]))
+        elif k == 3:
+            for i in range(r):
+                nums = 1
+                if not cities:
+                    cities.append(sheet_data[i][:3])
+                    values.append(sheet_data[i][3::])
+                elif sheet_data[i][:3] not in cities:
+                    cities.append(sheet_data[i][:3])
+                    values.append(sheet_data[i][3::])
+
+                if i != r - 1:
+                    for j in range(i + 1, r):
+                        c = sheet_data[j][:3]
+                        v = sheet_data[i][3::]
+                        if c == cities[-1]:
+                            values[-1][0] += v[0]
+                            values[-1][1] += v[1]
+                            values[-1][2] += v[2]
+                            nums += 1
+                    values[-1][0] /= nums
+                    values[-1][1] /= nums
+                    values[-1][2] /= nums
+
+            for i in range(len(cities)):
+                for f in range(len(cities[i])):
+                    if cities[i][f] == 0:
+                        cities[i][f] = ""
+                avg_sheet_data.append((cities[i] + values[i]))
+        elif k == 4:
+            for i in range(r):
+                nums = 1
+                if not cities:
+                    cities.append(sheet_data[i][:4] + sheet_data[i][6:7] + sheet_data[i][8::])
+                    values.append(sheet_data[i][4:6] + sheet_data[i][7:8])
+                elif sheet_data[i][:2] not in cities:
+                    cities.append(sheet_data[i][:4] + sheet_data[i][6:7] + sheet_data[i][8::])
+                    values.append(sheet_data[i][4:6] + sheet_data[i][7:8])
+
+                if i != r - 1:
+                    for j in range(i + 1, r):
+                        c = sheet_data[i][:4] + sheet_data[i][6:7] + sheet_data[i][8::]
+                        v = sheet_data[i][4:6] + sheet_data[i][7:8]
+                        if c == cities[-1]:
+                            values[-1][0] += v[0]
+                            values[-1][1] += v[1]
+                            values[-1][2] += v[2]
+                            nums += 1
+                    values[-1][0] /= nums
+                    values[-1][1] /= nums
+                    values[-1][2] /= nums
+
+            for i in range(len(cities)):
+                for f in range(len(cities[i])):
+                    if cities[i][f] == 0:
+                        cities[i][f] = ""
+                avg_sheet_data.append((cities[i][:4] + values[i][:2] + cities[i][4:5] + values[i][2::] + cities[i][5::]))
+        avg_data.append(avg_sheet_data)
+
+    letters = ['A', "B", "C", "D", "E", "F", "G", "H", "I", "J"]
+    wb = openpyxl.load_workbook(f"{avg_name}.xlsx")
+    for i in range(sheets_num):
+        ws = wb.worksheets[i]
+        sheet_data = avg_data[i]
+        row_num = 4
+        for rows in sheet_data:
+            for j in range(len(rows)):
+                ws[letters[j] + str(row_num)] = rows[j]
+            row_num += 1
+    wb.save(f"{avg_name}.xlsx")
+
+    # блок форматирования ячеек
     wb = openpyxl.load_workbook(f"{avg_name}.xlsx")
     for i in range(sheets_num):
         ws = wb.worksheets[i]

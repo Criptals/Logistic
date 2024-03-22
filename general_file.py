@@ -4,6 +4,7 @@ from openpyxl.styles import Alignment
 from average_file import create_average_file
 
 def create_general_file(a, gen_name, avg_name):
+    # блок заполнения сводной таблицы данными из первой таблицы
     wb = Workbook()
     book = openpyxl.load_workbook((a[0]))
     sheets_num = len(book.sheetnames)
@@ -37,6 +38,8 @@ def create_general_file(a, gen_name, avg_name):
                             ws[cell.coordinate[0] + str(row_num[i])].value = cell.value
     del wb['Sheet']
     wb.save(f"{gen_name}.xlsx")
+
+    # блок заполнения сводной таблицы данными из таблиц, начиная со 2
     files_num = len(a)
     for i in range(1, files_num):
         book = openpyxl.load_workbook((a[i]))
@@ -74,6 +77,7 @@ def create_general_file(a, gen_name, avg_name):
     del wb["Лист1"]
     wb.save(f"{gen_name}.xlsx")
 
+    # блок форматирования ячеек
     wb = openpyxl.load_workbook(f"{gen_name}.xlsx")
     for i in range(sheets_num-1):
         ws = wb.worksheets[i]
