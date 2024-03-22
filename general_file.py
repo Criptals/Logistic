@@ -82,23 +82,56 @@ def create_general_file(a, gen_name, avg_name):
         for j in range(1, columns + 1):
             for k in range(1, rows + 1):
                 ws.cell(j, k).alignment = Alignment(horizontal="center", vertical="top")
-        ws.merge_cells("A1:L1")
-        ws.merge_cells("E2:F2")
-        ws.merge_cells("G2:H2")
-        ws.merge_cells("I2:J2")
-        ws.column_dimensions['A'].width = 15
-        ws.column_dimensions['B'].width = 20
-        ws.column_dimensions['C'].width = 15
-        ws.column_dimensions['D'].width = 20
-        ws.column_dimensions['E'].width = 15
-        ws.column_dimensions['F'].width = 15
-        ws.column_dimensions['G'].width = 15
-        ws.column_dimensions['H'].width = 15
-        ws.column_dimensions['I'].width = 10
-        ws.column_dimensions['J'].width = 10
-        ws.column_dimensions['K'].width = 100
-        ws.column_dimensions['L'].width = 20
+        if i < 3:
+            ws.merge_cells("A1:L1")
+            ws.merge_cells("E2:F2")
+            ws.merge_cells("G2:H2")
+            ws.merge_cells("I2:J2")
+            ws.column_dimensions['A'].width = 15
+            ws.column_dimensions['B'].width = 30
+            ws.column_dimensions['C'].width = 15
+            ws.column_dimensions['D'].width = 20
+            ws.column_dimensions['E'].width = 15
+            ws.column_dimensions['F'].width = 15
+            ws.column_dimensions['G'].width = 15
+            ws.column_dimensions['H'].width = 15
+            ws.column_dimensions['I'].width = 10
+            ws.column_dimensions['J'].width = 10
+            ws.column_dimensions['K'].width = 90
+            ws.column_dimensions['L'].width = 20
+        elif i == 3:
+            ws.merge_cells("A1:M1")
+            ws.merge_cells("I2:J2")
+            ws.merge_cells("L2:M2")
+            ws.column_dimensions['A'].width = 15
+            ws.column_dimensions['B'].width = 0
+            ws.column_dimensions['C'].width = 10
+            ws.column_dimensions['D'].width = 10
+            ws.column_dimensions['E'].width = 20
+            ws.column_dimensions['F'].width = 20
+            ws.column_dimensions['G'].width = 20
+            ws.column_dimensions['H'].width = 20
+            ws.column_dimensions['I'].width = 10
+            ws.column_dimensions['J'].width = 10
+            ws.column_dimensions['K'].width = 60
+            ws.column_dimensions['L'].width = 10
+            ws.column_dimensions['M'].width = 10
+            ws.column_dimensions['N'].width = 20
+        elif i == 4:
+            ws.merge_cells("A1:L1")
+            ws.merge_cells("E2:G2")
+            ws.merge_cells("H2:I2")
+            ws.column_dimensions['A'].width = 20
+            ws.column_dimensions['B'].width = 15
+            ws.column_dimensions['C'].width = 25
+            ws.column_dimensions['D'].width = 35
+            ws.column_dimensions['E'].width = 20
+            ws.column_dimensions['F'].width = 20
+            ws.column_dimensions['G'].width = 15
+            ws.column_dimensions['H'].width = 20
+            ws.column_dimensions['I'].width = 15
+            ws.column_dimensions['J'].width = 10
+            ws.column_dimensions['K'].width = 20
+            ws.column_dimensions['L'].width = 80
     wb.save(f"{gen_name}.xlsx")
-    #create_average_file(gen_name=gen_name, avg_name=avg_name)
-
-     # сохранение таблицы
+    create_average_file(gen_name=gen_name, avg_name=avg_name)
