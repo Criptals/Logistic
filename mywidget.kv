@@ -2,7 +2,7 @@
     id: my_widget
     orientation: "vertical"
 
-    md_bg_color: 0.95, 0.47, 0.2, 0.7
+    md_bg_color: 0.95, 0.47, 0.5, 0.4
     BoxLayout:
         orientation: "vertical"
         BoxLayout:
@@ -11,18 +11,21 @@
             Button
                 id: b1
                 text: "Добавить файл"
+                background_color: 0,0,0,1
                 on_release: my_widget.open(filechooser.path, filechooser.selection)
                 size_hint: (0.35, 0.1)
                 pos_hint: {'center_x': 0.15, 'center_y': 0.9}
             Button
                 id: b2
                 text: "Сгенерировать таблицы"
+                background_color: 0,0,0,1
                 on_release: my_widget.generate_files()
                 size_hint: (0.35, 0.1)
                 pos_hint: {'center_x': 0.5, 'center_y': 0.9}
             Button
                 id: b3
                 text: "Очистить список выбранных файлов"
+                background_color: 0,0,0,1
                 on_release: my_widget.delete_selected_files()
                 size_hint: (0.35, 0.1)
                 pos_hint: {'center_x': 0.85, 'center_y': 0.9}
@@ -48,9 +51,11 @@
             text_color: (1, 0, 0, 1)
             FileChooserListView:
                 id: filechooser
-
+                text_color: 0.95, 0.47, 0.2, 0.7
                 path: '.'
                 on_selection:
+                size_hint_y: 1
+                size_hint_x: 0.4
                 pos_hint: {'center_x': 0.5, 'center_y': 0.4}
             ScrollView:
                 do_scroll: True

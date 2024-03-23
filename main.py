@@ -33,7 +33,6 @@ class MyWidget(MDScreen):
         if filename != []:
             if filename[0] not in self.path_list:
                 self.path_list.append(filename[0])
-                lbl = Label(text=filename[0], color=[.1, .1, .1, 1])
                 items = BaseListItem(text=filename[0], text_color=(100, 100, 100, 1), size_hint=(1, 0.005))
                 self.ids["list"].add_widget(items)
                 print(self.path_list)
