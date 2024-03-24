@@ -1,21 +1,13 @@
 from kivy.config import Config
 from kivymd.uix.list import BaseListItem
 from kivymd.uix.screen import MDScreen
-
-Config.set('input', 'mouse', 'mouse,multitouch_on_demand')
 from kivymd.app import MDApp
 from kivy.core.text import Label
 from kivy.lang import Builder
 from general_file import create_general_file
 
-
+Config.set('input', 'mouse', 'mouse,multitouch_on_demand')
 Builder.load_file('mywidget.kv')
-# ScrollView:
-#         do_scroll: True
-#         pos_hint: {'center_x': 0.5, 'center_y': 0.1}
-#         MDList:
-#             id: list
-#             pos_hint: {'center_x': 0.5, 'center_y': 0.1}
 
 
 class MyWidget(MDScreen):
@@ -35,7 +27,6 @@ class MyWidget(MDScreen):
                 self.path_list.append(filename[0])
                 items = BaseListItem(text=filename[0], text_color=(100, 100, 100, 1), size_hint=(1, 0.005))
                 self.ids["list"].add_widget(items)
-                print(self.path_list)
 
     def selected(self, filename):
         pass
